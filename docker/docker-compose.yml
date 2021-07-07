@@ -1,0 +1,48 @@
+#docker run --name mypostgres -e POSTGRES_PASSWORD=pw123456 -d postgres
+
+version: '3.9'
+services:
+  app:
+    image: 'commodity-pool'
+    ports: 
+      - '8080:8080'
+    depends_on:
+      - mysql
+    links: 
+      - mysql:db
+
+  mysql:
+    image: 'mysql:8.0.23'
+    restart: always
+    command: '--default-authentication-plugin=mysql_native_password --lower_case_table_names=1'
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'pw123456'
+      MYSQL_DATABASE: 'testdb'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '2'
+  
+#  mysql:
+#    image: 'mysql:8.0.23'
+#    restart: always
+#    command: '--default-authentication-plugin=mysql_native_password'
+#    ports:
+#      - '3306:3306'
+#    environment:
+#      MYSQL_ROOT_PASSWORD: 'pw123456'
+#      MYSQL_DATABASE: 'testdb'
+#      MYSQL_USER: 'user1'
+#      MYSQL_PASSWORD: 'pw123456'
+#    logging:
+#      driver: json-file
+#      options:
+#        max-size: 20m
+#        max-file: '2'
+
+        

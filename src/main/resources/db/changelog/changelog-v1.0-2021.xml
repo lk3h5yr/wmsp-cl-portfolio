@@ -1,0 +1,202 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+	
+	<!-- 投資組合基本資料: PORTFOLIO_MAIN -->
+	<changeSet author="user(generated)" id="1">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_MAIN"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合基本資料" tableName="PORTFOLIO_MAIN">
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="PORTFOLIO_NAME" remarks="投資組合名稱" type="VARCHAR(20)"/>
+			<column name="PORTFOLIO_TEMPLATE_ID" remarks="模板ID" type="VARCHAR(20)"/>
+			<column name="INVESTMENT_AMOUNT" remarks="投資金額" type="DECIMAL(12,0)"/>
+			<column name="RELEASE_DATE" remarks="上架日期" type="DATE"/>
+			<column name="COMMODITY_STOCK" remarks="股票" type="VARCHAR(2)"/>
+			<column name="COMMODITY_ETF" remarks="ETF" type="VARCHAR(2)"/>
+			<column name="COMMODITY_FUND" remarks="基金" type="VARCHAR(2)"/>
+			<column name="RISK_LEVEL" remarks="風險等級" type="VARCHAR(3)"/>
+			<column name="STOP_DATE" remarks="停用日期" type="DATE"/>
+			<column name="STOP_CHECK" remarks="是否停用" type="VARCHAR(2)"/>
+			<column name="STOP_DESC" remarks="停用原因" type="VARCHAR(100)"/>
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(10)"/>
+		</createTable>
+	</changeSet>
+	
+	<!-- 投資組合基本資料LOG: PORTFOLIO_MAIN_LOG -->
+	<changeSet author="user(generated)" id="2">
+		 <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_MAIN_LOG"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合基本資料LOG" tableName="PORTFOLIO_MAIN_LOG">
+			<column name="LOG_ID" remarks="LOG序號" type="varchar(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LOG_DATETIME" remarks="LOG日期" type="TIMESTAMP"/>
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)"/>
+			<column name="PORTFOLIO_NAME" remarks="投資組合名稱" type="VARCHAR(20)"/>
+			<column name="PORTFOLIO_TEMPLATE_ID" remarks="模板ID" type="VARCHAR(10)"/>
+			<column name="RELEASE_DATE" remarks="上架日期" type="DATE"/>
+			<column name="INVESTMENT_AMOUNT" remarks="投資金額" type="DECIMAL(12,0)"/>
+			<column name="COMMODITY_STOCK" remarks="股票" type="VARCHAR(2)"/>
+			<column name="COMMODITY_ETF" remarks="ETF" type="VARCHAR(2)"/>
+			<column name="COMMODITY_FUND" remarks="基金" type="VARCHAR(2)"/>
+			<column name="RISK_LEVEL" remarks="風險等級" type="VARCHAR(3)"/>
+			<column name="STOP_DATE" remarks="停用日期" type="DATE"/>
+			<column name="STOP_CHECK" remarks="是否停用" type="VARCHAR(2)"/>
+			<column name="STOP_DESC" remarks="停用原因" type="VARCHAR(100)"/>
+			<column name="STATUS_CODE" remarks="狀態" type="VARCHAR(2)"/>
+			<column name="CHANGE_ID" remarks="異動人員" type="VARCHAR(10)"/>
+			<column name="CHANGE_DATETIME" remarks="異動日期" type="TIMESTAMP"/>
+			<column name="SEND_REVIEW_ID" remarks="送出審核人員" type="VARCHAR(10)"/>
+			<column name="SEND_REVIEW_DATETIME" remarks="送出審核日期" type="TIMESTAMP"/>
+			<column name="REVIEW_ID" remarks="審核人員" type="VARCHAR(10)" />
+			<column name="REVIEW_DATETIME" remarks="審核日期" type="TIMESTAMP"/>
+			<column name="DELETE_ID" remarks="刪除人員" type="VARCHAR(10)" />
+			<column name="DELETE_DATETIME" remarks="刪除日期" type="TIMESTAMP"/>
+			<column name="IS_EDIT" remarks="是否編輯中" type="VARCHAR(2)" />
+			<column name="END_DATE" remarks="結束日期" type="DATE" />
+		</createTable>
+	</changeSet>
+
+	<!-- 投資組合商品池及標的: PORTFOLIO_WEIGHTS -->
+	<changeSet author="user(generated)" id="3">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_WEIGHTS"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合商品池及標的" tableName="PORTFOLIO_WEIGHTS">
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="COMMODITY_POOL_ID" remarks="商品池代碼" type="VARCHAR(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="COMMODITY_ID" remarks="商品代碼" type="VARCHAR(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="COMMODITY_WEIGHT" remarks="商品池權重" type="DECIMAL(5,2)"/>
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(20)"/>
+		</createTable>
+	</changeSet>
+
+	<!-- 投資組合商品池及標的LOG: PORTFOLIO_WEIGHTS_LOG -->
+	<changeSet author="user(generated)" id="4">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_WEIGHTS_LOG"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合商品池及標的LOG" tableName="PORTFOLIO_WEIGHTS_LOG">
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LOG_DATETIME" remarks="LOG日期" type="TIMESTAMP"/>
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="COMMODITY_POOL_ID" remarks="商品池代碼" type="VARCHAR(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="COMMODITY_ID" remarks="商品代碼" type="VARCHAR(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="COMMODITY_WEIGHT" remarks="商品池權重" type="DECIMAL(5,2)"/>
+			<column name="CHANGE_ID" remarks="異動人員" type="VARCHAR(10)"/>
+			<column name="CHANGE_DATETIME" remarks="異動日期" type="TIMESTAMP"/>
+		</createTable>
+	</changeSet>
+	
+	<!-- 投資組合貼標: PORTFOLIO_LABEL -->
+	<changeSet author="user(generated)" id="5">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_LABEL"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合貼標" tableName="PORTFOLIO_LABEL">
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LABEL_ID" remarks="標籤代碼" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LABEL_SWITCH" remarks="標籤開關" type="VARCHAR(2)"/>
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(10)"/>
+		</createTable>
+	</changeSet>
+	
+	<!-- 投資組合貼標LOG: PORTFOLIO_LABEL_LOG -->
+	<changeSet author="user(generated)" id="6">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_LABEL_LOG"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合貼標LOG" tableName="PORTFOLIO_LABEL_LOG">
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LOG_DATETIME" remarks="LOG日期" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LABEL_ID" remarks="標籤代碼" type="VARCHAR(20)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LABEL_SWITCH" remarks="標籤開關" type="VARCHAR(2)"/>
+			<column name="CHANGE_ID" remarks="異動人員" type="VARCHAR(10)"/>
+			<column name="CHANGE_DATETIME" remarks="異動日期" type="TIMESTAMP"/>
+		</createTable>
+	</changeSet>
+	
+	<!-- 投資組合建議書: PORTFOLIO_PROPOSAL -->
+	<changeSet author="user(generated)" id="7">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_PROPOSAL"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合建議書" tableName="PORTFOLIO_PROPOSAL">
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)">
+				<constraints nullable="false"  primaryKey="true"/>
+			</column>
+			<column name="PROPOSAL" remarks="投資建議書" type="VARCHAR(200)"/>
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(10)"/>
+		</createTable>
+	</changeSet>
+	
+	<!-- 投資組合建議書LOG: PORTFOLIO_PROPOSAL_LOG -->
+	<changeSet author="user(generated)" id="8">
+	     <preConditions onFail="MARK_RAN">
+	       <not>
+	         <tableExists tableName="PORTFOLIO_PROPOSAL_LOG"/>
+	       </not> 
+		</preConditions>
+		<createTable remarks="投資組合建議書LOG" tableName="PORTFOLIO_PROPOSAL_LOG">
+			<column name="LOG_ID" remarks="LOG ID" type="VARCHAR(10)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="LOG_DATETIME" remarks="LOG日期" type="TIMESTAMP"/>
+			<column name="PORTFOLIO_ID" remarks="投資組合ID" type="VARCHAR(20)"/>
+			<column name="PROPOSAL" remarks="投資建議書" type="VARCHAR(200)"/>
+			<column name="CHANGE_ID" remarks="異動人員" type="VARCHAR(10)"/>
+			<column name="CHANGE_DATETIME" remarks="異動日期" type="TIMESTAMP"/>
+		</createTable>
+	</changeSet>
+	
+</databaseChangeLog>

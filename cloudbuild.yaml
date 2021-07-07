@@ -1,0 +1,13 @@
+steps:
+  - name: gradle:7.1.1-jdk11
+    entrypoint: gradle
+    args: ["build"]
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/commodity-pool", "--build-arg=JAR_FILE=build/libs/wmsp-cl-portfolio-0.0.1.jar", "."]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/commodity-pool']
+  # - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  #   entrypoint: gcloud
+  #   args: ['run', 'deploy', 'commodity-pool', '--image', 'gcr.io/$PROJECT_ID/hello-spring',
+  #   '--region', 'asia-east1', '--platform', 'managed', '--allow-unauthenticated']
+images: ["gcr.io/$PROJECT_ID/commodity-pool"]

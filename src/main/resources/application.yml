@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: wmsp-cl-portfolio
+  profiles:
+    active:
+    - dev
